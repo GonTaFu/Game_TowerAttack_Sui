@@ -6,32 +6,24 @@
     <title>Unity WebGL Player | tower-attack-sui</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <script type="module">
-      import { getWallets } from "https://cdn.jsdelivr.net/npm/@mysten/wallet-standard@latest/dist/index.mjs";
-
-      let slushWallet = null;
-
-      const wallets = getWallets();
-
-      wallets.get().forEach(wallet => {
-          if (wallet.name.toLowerCase().includes("slush")) {
-              slushWallet = wallet;
-          }
-      });
-
+    <script >
       window.ConnectSlush = async () => {
-        if (!slushWallet) {
-          alert("Slush Wallet không được cài trên trình duyệt.");
+      const wallet = window.suiWallet || window.sui;
+
+      if (!wallet) {
+          alert("Slush Wallet extension not detected!");
           return;
-        }
-        const accounts = await slushWallet.connect();
-        const address = accounts[0].address;
+      }
 
-        alert("Slush Connected: " + address);
-
-        // gửi về Unity nếu muốn
-        window.connectedAddress = address;
-      };
+      try {
+          const result = await wallet.request('sui_getAddresses');
+          const address = result[0];
+          alert("Connected: " + address);
+          window.connectedAddress = address;
+      } catch (err) {
+          alert("Connection failed: " + err);
+      }
+    };
     </script>
   </head>
   <body>
