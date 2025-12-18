@@ -6,25 +6,7 @@
     <title>Unity WebGL Player | tower-attack-sui</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <script >
-      window.ConnectSlush = async () => {
-      const wallet = window.suiWallet || window.sui;
-
-      if (!wallet) {
-          alert("Slush Wallet extension not detected!");
-          return;
-      }
-
-      try {
-          const result = await wallet.request('sui_getAddresses');
-          const address = result[0];
-          alert("Connected: " + address);
-          window.connectedAddress = address;
-      } catch (err) {
-          alert("Connection failed: " + err);
-      }
-    };
-    </script>
+    <script src="slush-bridge.js"></script>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
